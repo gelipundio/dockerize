@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment: 
+      NODE_ENV: 'development'
+      PORT: 3000
+      POSTGRES_HOST: "bd"
+      POSTGRES_DB: "fndefunction"
+      POSTGRES_USER: "fnevarez"
+      POSTGRES_PASSWORD: "fn_de_function_password"
+      POSTGRES_PORT: 5432
+    ports:
+      - "8080:3000"
+    depends_on: 
+      - bd
+    volumes:
+      - ".:/app"
+
+  bd:
+    image: "postgres:11"
+    environment:
+      POSTGRES_DB: "fndefunction"
+      POSTGRES_USER: "fnevarez"
+      POSTGRES_PASSWORD: "fn_de_function_password"
+    ports:
+      - "5432:5432"
+    volumes:
+      - 'bd_fn:/var/lib/posgresql'
+
+volumes:
+  bd_fn:
+    external: true
